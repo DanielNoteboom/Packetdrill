@@ -136,115 +136,116 @@ Grammar
    88           | SACK sack_block_list
    89           | TIMESTAMP VAL INTEGER ECR INTEGER
    90           | FAST_OPEN opt_tcp_fast_open_cookie
+   91           | NO_CHECK
 
-   91 sack_block_list: sack_block
-   92                | sack_block_list sack_block
+   92 sack_block_list: sack_block
+   93                | sack_block_list sack_block
 
-   93 sack_block: INTEGER ':' INTEGER
+   94 sack_block: INTEGER ':' INTEGER
 
-   94 syscall_spec: opt_end_time function_name function_arguments '=' expression opt_errno opt_note
+   95 syscall_spec: opt_end_time function_name function_arguments '=' expression opt_errno opt_note
 
-   95 opt_end_time: /* empty */
-   96             | ELLIPSIS time
+   96 opt_end_time: /* empty */
+   97             | ELLIPSIS time
 
-   97 function_name: WORD
+   98 function_name: WORD
 
-   98 function_arguments: '(' ')'
-   99                   | '(' expression_list ')'
+   99 function_arguments: '(' ')'
+  100                   | '(' expression_list ')'
 
-  100 expression_list: expression
-  101                | expression_list ',' expression
+  101 expression_list: expression
+  102                | expression_list ',' expression
 
-  102 expression: ELLIPSIS
-  103           | decimal_integer
-  104           | hex_integer
-  105           | WORD
-  106           | STRING
-  107           | STRING ELLIPSIS
-  108           | binary_expression
-  109           | array
-  110           | inaddr
-  111           | sockaddr
-  112           | msghdr
-  113           | iovec
-  114           | pollfd
-  115           | linger
+  103 expression: ELLIPSIS
+  104           | decimal_integer
+  105           | hex_integer
+  106           | WORD
+  107           | STRING
+  108           | STRING ELLIPSIS
+  109           | binary_expression
+  110           | array
+  111           | inaddr
+  112           | sockaddr
+  113           | msghdr
+  114           | iovec
+  115           | pollfd
+  116           | linger
 
-  116 decimal_integer: INTEGER
+  117 decimal_integer: INTEGER
 
-  117 hex_integer: HEX_INTEGER
+  118 hex_integer: HEX_INTEGER
 
-  118 binary_expression: expression '|' expression
+  119 binary_expression: expression '|' expression
 
-  119 array: '[' ']'
-  120      | '[' expression_list ']'
+  120 array: '[' ']'
+  121      | '[' expression_list ']'
 
-  121 inaddr: INET_ADDR '(' STRING ')'
+  122 inaddr: INET_ADDR '(' STRING ')'
 
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
 
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
 
-  124 iovec: '{' ELLIPSIS ',' decimal_integer '}'
+  125 iovec: '{' ELLIPSIS ',' decimal_integer '}'
 
-  125 pollfd: '{' FD '=' expression ',' EVENTS '=' expression opt_revents '}'
+  126 pollfd: '{' FD '=' expression ',' EVENTS '=' expression opt_revents '}'
 
-  126 opt_revents: /* empty */
-  127            | ',' REVENTS '=' expression
+  127 opt_revents: /* empty */
+  128            | ',' REVENTS '=' expression
 
-  128 linger: '{' ONOFF '=' INTEGER ',' LINGER '=' INTEGER '}'
+  129 linger: '{' ONOFF '=' INTEGER ',' LINGER '=' INTEGER '}'
 
-  129 opt_errno: /* empty */
-  130          | WORD note
+  130 opt_errno: /* empty */
+  131          | WORD note
 
-  131 opt_note: /* empty */
-  132         | note
+  132 opt_note: /* empty */
+  133         | note
 
-  133 note: '(' word_list ')'
+  134 note: '(' word_list ')'
 
-  134 word_list: WORD
-  135          | word_list WORD
+  135 word_list: WORD
+  136          | word_list WORD
 
-  136 command_spec: BACK_QUOTED
+  137 command_spec: BACK_QUOTED
 
-  137 code_spec: CODE
+  138 code_spec: CODE
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'(' (40) 36 45 52 69 98 99 121 122 123 133
-')' (41) 36 45 52 69 98 99 121 122 123 133
+'(' (40) 36 45 52 69 99 100 122 123 124 134
+')' (41) 36 45 52 69 99 100 122 123 124 134
 '*' (42) 23
 '+' (43) 21 25
-',' (44) 45 47 78 101 122 123 124 125 127 128
+',' (44) 45 47 78 102 123 124 125 126 128 129
 '-' (45) 68
 '.' (46) 66 67
-':' (58) 39 40 41 42 69 93
+':' (58) 39 40 41 42 69 94
 '<' (60) 56 75 76
-'=' (61) 6 94 122 123 125 127 128
+'=' (61) 6 95 123 124 126 128 129
 '>' (62) 39 40 57 75 76
-'[' (91) 47 52 53 59 119 120
-']' (93) 47 52 53 59 119 120
-'{' (123) 122 123 124 125 128
-'|' (124) 118
-'}' (125) 122 123 124 125 128
+'[' (91) 47 52 53 59 120 121
+']' (93) 47 52 53 59 120 121
+'{' (123) 123 124 125 126 129
+'|' (124) 119
+'}' (125) 123 124 125 126 129
 '~' (126) 24 25
 error (256)
-ELLIPSIS (258) 76 96 102 107 123 124
-SA_FAMILY (259) 122
-SIN_PORT (260) 122
-SIN_ADDR (261) 122
-_HTONS_ (262) 122
-INET_ADDR (263) 121 122
-MSG_NAME (264) 123
-MSG_IOV (265) 123
-MSG_FLAGS (266) 123
-FD (267) 125
-EVENTS (268) 125
-REVENTS (269) 127
-ONOFF (270) 128
-LINGER (271) 128
+ELLIPSIS (258) 76 97 103 108 124 125
+SA_FAMILY (259) 123
+SIN_PORT (260) 123
+SIN_ADDR (261) 123
+_HTONS_ (262) 123
+INET_ADDR (263) 122 123
+MSG_NAME (264) 124
+MSG_IOV (265) 124
+MSG_FLAGS (266) 124
+FD (267) 126
+EVENTS (268) 126
+REVENTS (269) 128
+ONOFF (270) 129
+LINGER (271) 129
 ACK (272) 71
 ECR (273) 89
 EOL (274) 84
@@ -257,163 +258,164 @@ VAL (280) 89
 WIN (281) 73
 WSCALE (282) 86
 PRO (283)
-FAST_OPEN (284) 90
-ECT0 (285) 61
-ECT1 (286) 62
-CE (287) 64
-ECT01 (288) 63
-NO_ECN (289) 60
-IPV4 (290) 13 39
-IPV6 (291) 14 40
-ICMP (292) 37
-UDP (293) 36 52
-GRE (294) 41
-MTU (295) 55
-MPLS (296) 42
-LABEL (297) 45
-TC (298) 45
-TTL (299) 45
-OPTION (300) 7
-FLOAT (301) 26
-INTEGER (302) 8 27 36 45 52 55 69 71 73 82 85 86 89 93 116 122 128
-HEX_INTEGER (303) 117
-WORD (304) 9 47 48 50 65 67 81 97 105 122 130 134 135
-STRING (305) 10 106 107 121 122
-BACK_QUOTED (306) 136
-CODE (307) 137
-IPV4_ADDR (308) 11 39
-IPV6_ADDR (309) 12 40
+NO_CHECK (284) 91
+FAST_OPEN (285) 90
+ECT0 (286) 61
+ECT1 (287) 62
+CE (288) 64
+ECT01 (289) 63
+NO_ECN (290) 60
+IPV4 (291) 13 39
+IPV6 (292) 14 40
+ICMP (293) 37
+UDP (294) 36 52
+GRE (295) 41
+MTU (296) 55
+MPLS (297) 42
+LABEL (298) 45
+TC (299) 45
+TTL (300) 45
+OPTION (301) 7
+FLOAT (302) 26
+INTEGER (303) 8 27 36 45 52 55 69 71 73 82 85 86 89 94 117 123 129
+HEX_INTEGER (304) 118
+WORD (305) 9 47 48 50 65 67 81 98 106 123 131 135 136
+STRING (306) 10 107 108 122 123
+BACK_QUOTED (307) 137
+CODE (308) 138
+IPV4_ADDR (309) 11 39
+IPV6_ADDR (310) 12 40
 
 
 Nonterminals, with rules where they appear
 
-$accept (72)
+$accept (73)
     on left: 0
-script (73)
+script (74)
     on left: 1, on right: 0
-opt_options (74)
+opt_options (75)
     on left: 2 3, on right: 1
-options (75)
+options (76)
     on left: 4 5, on right: 3 5
-option (76)
+option (77)
     on left: 6, on right: 4 5
-option_flag (77)
+option_flag (78)
     on left: 7, on right: 6
-option_value (78)
+option_value (79)
     on left: 8 9 10 11 12 13 14, on right: 6
-opt_init_command (79)
+opt_init_command (80)
     on left: 15 16, on right: 1
-init_command (80)
+init_command (81)
     on left: 17, on right: 16
-events (81)
+events (82)
     on left: 18 19, on right: 1 19
-event (82)
+event (83)
     on left: 20, on right: 18 19
-event_time (83)
+event_time (84)
     on left: 21 22 23 24 25, on right: 20
-time (84)
-    on left: 26 27, on right: 21 22 24 25 96
-action (85)
+time (85)
+    on left: 26 27, on right: 21 22 24 25 97
+action (86)
     on left: 28 29 30 31, on right: 20
-packet_spec (86)
+packet_spec (87)
     on left: 32 33 34, on right: 28
-tcp_packet_spec (87)
+tcp_packet_spec (88)
     on left: 35, on right: 32
-udp_packet_spec (88)
+udp_packet_spec (89)
     on left: 36, on right: 33
-icmp_packet_spec (89)
+icmp_packet_spec (90)
     on left: 37, on right: 34
-packet_prefix (90)
+packet_prefix (91)
     on left: 38 39 40 41 42, on right: 35 36 37 39 40 41 42
-mpls_stack (91)
+mpls_stack (92)
     on left: 43 44, on right: 42 44
-mpls_stack_entry (92)
+mpls_stack_entry (93)
     on left: 45, on right: 44
-opt_mpls_stack_bottom (93)
+opt_mpls_stack_bottom (94)
     on left: 46 47, on right: 45
-icmp_type (94)
+icmp_type (95)
     on left: 48, on right: 37
-opt_icmp_code (95)
+opt_icmp_code (96)
     on left: 49 50, on right: 37
-opt_icmp_echoed (96)
+opt_icmp_echoed (97)
     on left: 51 52 53, on right: 37
-opt_icmp_mtu (97)
+opt_icmp_mtu (98)
     on left: 54 55, on right: 37
-direction (98)
+direction (99)
     on left: 56 57, on right: 38
-opt_ip_info (99)
+opt_ip_info (100)
     on left: 58 59, on right: 35
-ip_ecn (100)
+ip_ecn (101)
     on left: 60 61 62 63 64, on right: 59
-flags (101)
+flags (102)
     on left: 65 66 67 68, on right: 35
-seq (102)
+seq (103)
     on left: 69, on right: 35 53
-opt_ack (103)
+opt_ack (104)
     on left: 70 71, on right: 35
-opt_window (104)
+opt_window (105)
     on left: 72 73, on right: 35
-opt_tcp_options (105)
+opt_tcp_options (106)
     on left: 74 75 76, on right: 35
-tcp_option_list (106)
+tcp_option_list (107)
     on left: 77 78, on right: 75 78
-opt_tcp_fast_open_cookie (107)
+opt_tcp_fast_open_cookie (108)
     on left: 79 80, on right: 90
-tcp_fast_open_cookie (108)
+tcp_fast_open_cookie (109)
     on left: 81 82, on right: 80
-tcp_option (109)
-    on left: 83 84 85 86 87 88 89 90, on right: 77 78
-sack_block_list (110)
-    on left: 91 92, on right: 88 92
-sack_block (111)
-    on left: 93, on right: 91 92
-syscall_spec (112)
-    on left: 94, on right: 29
-opt_end_time (113)
-    on left: 95 96, on right: 94
-function_name (114)
-    on left: 97, on right: 94
-function_arguments (115)
-    on left: 98 99, on right: 94
-expression_list (116)
-    on left: 100 101, on right: 99 101 120
-expression (117)
-    on left: 102 103 104 105 106 107 108 109 110 111 112 113 114 115,
-    on right: 94 100 101 118 123 125 127
-decimal_integer (118)
-    on left: 116, on right: 103 123 124
-hex_integer (119)
-    on left: 117, on right: 104
-binary_expression (120)
-    on left: 118, on right: 108
-array (121)
-    on left: 119 120, on right: 109 123
-inaddr (122)
-    on left: 121, on right: 110
-sockaddr (123)
+tcp_option (110)
+    on left: 83 84 85 86 87 88 89 90 91, on right: 77 78
+sack_block_list (111)
+    on left: 92 93, on right: 88 93
+sack_block (112)
+    on left: 94, on right: 92 93
+syscall_spec (113)
+    on left: 95, on right: 29
+opt_end_time (114)
+    on left: 96 97, on right: 95
+function_name (115)
+    on left: 98, on right: 95
+function_arguments (116)
+    on left: 99 100, on right: 95
+expression_list (117)
+    on left: 101 102, on right: 100 102 121
+expression (118)
+    on left: 103 104 105 106 107 108 109 110 111 112 113 114 115 116,
+    on right: 95 101 102 119 124 126 128
+decimal_integer (119)
+    on left: 117, on right: 104 124 125
+hex_integer (120)
+    on left: 118, on right: 105
+binary_expression (121)
+    on left: 119, on right: 109
+array (122)
+    on left: 120 121, on right: 110 124
+inaddr (123)
     on left: 122, on right: 111
-msghdr (124)
+sockaddr (124)
     on left: 123, on right: 112
-iovec (125)
+msghdr (125)
     on left: 124, on right: 113
-pollfd (126)
+iovec (126)
     on left: 125, on right: 114
-opt_revents (127)
-    on left: 126 127, on right: 125
-linger (128)
-    on left: 128, on right: 115
-opt_errno (129)
-    on left: 129 130, on right: 94
-opt_note (130)
-    on left: 131 132, on right: 94
-note (131)
-    on left: 133, on right: 130 132
-word_list (132)
-    on left: 134 135, on right: 133 135
-command_spec (133)
-    on left: 136, on right: 17 30
-code_spec (134)
-    on left: 137, on right: 31
+pollfd (127)
+    on left: 126, on right: 115
+opt_revents (128)
+    on left: 127 128, on right: 126
+linger (129)
+    on left: 129, on right: 116
+opt_errno (130)
+    on left: 130 131, on right: 95
+opt_note (131)
+    on left: 132 133, on right: 95
+note (132)
+    on left: 134, on right: 131 133
+word_list (133)
+    on left: 135 136, on right: 134 136
+command_spec (134)
+    on left: 137, on right: 17 30
+code_spec (135)
+    on left: 138, on right: 31
 
 
 state 0
@@ -494,9 +496,9 @@ state 7
 
 state 8
 
-  136 command_spec: BACK_QUOTED .
+  137 command_spec: BACK_QUOTED .
 
-    $default  reduce using rule 136 (command_spec)
+    $default  reduce using rule 137 (command_spec)
 
 
 state 9
@@ -616,7 +618,7 @@ state 20
     '>'          shift, and go to state 34
     '<'          shift, and go to state 35
 
-    $default  reduce using rule 95 (opt_end_time)
+    $default  reduce using rule 96 (opt_end_time)
 
     action            go to state 36
     packet_spec       go to state 37
@@ -716,7 +718,7 @@ state 31
 
 state 32
 
-   96 opt_end_time: ELLIPSIS . time
+   97 opt_end_time: ELLIPSIS . time
 
     FLOAT    shift, and go to state 14
     INTEGER  shift, and go to state 15
@@ -726,9 +728,9 @@ state 32
 
 state 33
 
-  137 code_spec: CODE .
+  138 code_spec: CODE .
 
-    $default  reduce using rule 137 (code_spec)
+    $default  reduce using rule 138 (code_spec)
 
 
 state 34
@@ -820,7 +822,7 @@ state 43
 
 state 44
 
-   94 syscall_spec: opt_end_time . function_name function_arguments '=' expression opt_errno opt_note
+   95 syscall_spec: opt_end_time . function_name function_arguments '=' expression opt_errno opt_note
 
     WORD  shift, and go to state 58
 
@@ -860,9 +862,9 @@ state 48
 
 state 49
 
-   96 opt_end_time: ELLIPSIS time .
+   97 opt_end_time: ELLIPSIS time .
 
-    $default  reduce using rule 96 (opt_end_time)
+    $default  reduce using rule 97 (opt_end_time)
 
 
 state 50
@@ -940,14 +942,14 @@ state 57
 
 state 58
 
-   97 function_name: WORD .
+   98 function_name: WORD .
 
-    $default  reduce using rule 97 (function_name)
+    $default  reduce using rule 98 (function_name)
 
 
 state 59
 
-   94 syscall_spec: opt_end_time function_name . function_arguments '=' expression opt_errno opt_note
+   95 syscall_spec: opt_end_time function_name . function_arguments '=' expression opt_errno opt_note
 
     '('  shift, and go to state 81
 
@@ -1117,8 +1119,8 @@ state 80
 
 state 81
 
-   98 function_arguments: '(' . ')'
-   99                   | '(' . expression_list ')'
+   99 function_arguments: '(' . ')'
+  100                   | '(' . expression_list ')'
 
     ELLIPSIS     shift, and go to state 98
     INET_ADDR    shift, and go to state 99
@@ -1146,7 +1148,7 @@ state 81
 
 state 82
 
-   94 syscall_spec: opt_end_time function_name function_arguments . '=' expression opt_errno opt_note
+   95 syscall_spec: opt_end_time function_name function_arguments . '=' expression opt_errno opt_note
 
     '='  shift, and go to state 119
 
@@ -1266,60 +1268,60 @@ state 97
 
 state 98
 
-  102 expression: ELLIPSIS .
+  103 expression: ELLIPSIS .
 
-    $default  reduce using rule 102 (expression)
+    $default  reduce using rule 103 (expression)
 
 
 state 99
 
-  121 inaddr: INET_ADDR . '(' STRING ')'
+  122 inaddr: INET_ADDR . '(' STRING ')'
 
     '('  shift, and go to state 130
 
 
 state 100
 
-  116 decimal_integer: INTEGER .
+  117 decimal_integer: INTEGER .
 
-    $default  reduce using rule 116 (decimal_integer)
+    $default  reduce using rule 117 (decimal_integer)
 
 
 state 101
 
-  117 hex_integer: HEX_INTEGER .
+  118 hex_integer: HEX_INTEGER .
 
-    $default  reduce using rule 117 (hex_integer)
+    $default  reduce using rule 118 (hex_integer)
 
 
 state 102
 
-  105 expression: WORD .
-
-    $default  reduce using rule 105 (expression)
-
-
-state 103
-
-  106 expression: STRING .
-  107           | STRING . ELLIPSIS
-
-    ELLIPSIS  shift, and go to state 131
+  106 expression: WORD .
 
     $default  reduce using rule 106 (expression)
 
 
+state 103
+
+  107 expression: STRING .
+  108           | STRING . ELLIPSIS
+
+    ELLIPSIS  shift, and go to state 131
+
+    $default  reduce using rule 107 (expression)
+
+
 state 104
 
-   98 function_arguments: '(' ')' .
+   99 function_arguments: '(' ')' .
 
-    $default  reduce using rule 98 (function_arguments)
+    $default  reduce using rule 99 (function_arguments)
 
 
 state 105
 
-  119 array: '[' . ']'
-  120      | '[' . expression_list ']'
+  120 array: '[' . ']'
+  121      | '[' . expression_list ']'
 
     ELLIPSIS     shift, and go to state 98
     INET_ADDR    shift, and go to state 99
@@ -1347,11 +1349,11 @@ state 105
 
 state 106
 
-  122 sockaddr: '{' . SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
-  123 msghdr: '{' . MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
-  124 iovec: '{' . ELLIPSIS ',' decimal_integer '}'
-  125 pollfd: '{' . FD '=' expression ',' EVENTS '=' expression opt_revents '}'
-  128 linger: '{' . ONOFF '=' INTEGER ',' LINGER '=' INTEGER '}'
+  123 sockaddr: '{' . SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
+  124 msghdr: '{' . MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
+  125 iovec: '{' . ELLIPSIS ',' decimal_integer '}'
+  126 pollfd: '{' . FD '=' expression ',' EVENTS '=' expression opt_revents '}'
+  129 linger: '{' . ONOFF '=' INTEGER ',' LINGER '=' INTEGER '}'
 
     ELLIPSIS   shift, and go to state 134
     SA_FAMILY  shift, and go to state 135
@@ -1362,8 +1364,8 @@ state 106
 
 state 107
 
-   99 function_arguments: '(' expression_list . ')'
-  101 expression_list: expression_list . ',' expression
+  100 function_arguments: '(' expression_list . ')'
+  102 expression_list: expression_list . ',' expression
 
     ')'  shift, and go to state 139
     ','  shift, and go to state 140
@@ -1371,87 +1373,87 @@ state 107
 
 state 108
 
-  100 expression_list: expression .
-  118 binary_expression: expression . '|' expression
+  101 expression_list: expression .
+  119 binary_expression: expression . '|' expression
 
     '|'  shift, and go to state 141
 
-    $default  reduce using rule 100 (expression_list)
+    $default  reduce using rule 101 (expression_list)
 
 
 state 109
 
-  103 expression: decimal_integer .
-
-    $default  reduce using rule 103 (expression)
-
-
-state 110
-
-  104 expression: hex_integer .
+  104 expression: decimal_integer .
 
     $default  reduce using rule 104 (expression)
 
 
+state 110
+
+  105 expression: hex_integer .
+
+    $default  reduce using rule 105 (expression)
+
+
 state 111
 
-  108 expression: binary_expression .
-
-    $default  reduce using rule 108 (expression)
-
-
-state 112
-
-  109 expression: array .
+  109 expression: binary_expression .
 
     $default  reduce using rule 109 (expression)
 
 
-state 113
+state 112
 
-  110 expression: inaddr .
+  110 expression: array .
 
     $default  reduce using rule 110 (expression)
 
 
-state 114
+state 113
 
-  111 expression: sockaddr .
+  111 expression: inaddr .
 
     $default  reduce using rule 111 (expression)
 
 
-state 115
+state 114
 
-  112 expression: msghdr .
+  112 expression: sockaddr .
 
     $default  reduce using rule 112 (expression)
 
 
-state 116
+state 115
 
-  113 expression: iovec .
+  113 expression: msghdr .
 
     $default  reduce using rule 113 (expression)
 
 
-state 117
+state 116
 
-  114 expression: pollfd .
+  114 expression: iovec .
 
     $default  reduce using rule 114 (expression)
 
 
-state 118
+state 117
 
-  115 expression: linger .
+  115 expression: pollfd .
 
     $default  reduce using rule 115 (expression)
 
 
+state 118
+
+  116 expression: linger .
+
+    $default  reduce using rule 116 (expression)
+
+
 state 119
 
-   94 syscall_spec: opt_end_time function_name function_arguments '=' . expression opt_errno opt_note
+   95 syscall_spec: opt_end_time function_name function_arguments '=' . expression opt_errno opt_note
 
     ELLIPSIS     shift, and go to state 98
     INET_ADDR    shift, and go to state 99
@@ -1555,29 +1557,29 @@ state 129
 
 state 130
 
-  121 inaddr: INET_ADDR '(' . STRING ')'
+  122 inaddr: INET_ADDR '(' . STRING ')'
 
     STRING  shift, and go to state 153
 
 
 state 131
 
-  107 expression: STRING ELLIPSIS .
+  108 expression: STRING ELLIPSIS .
 
-    $default  reduce using rule 107 (expression)
+    $default  reduce using rule 108 (expression)
 
 
 state 132
 
-  119 array: '[' ']' .
+  120 array: '[' ']' .
 
-    $default  reduce using rule 119 (array)
+    $default  reduce using rule 120 (array)
 
 
 state 133
 
-  101 expression_list: expression_list . ',' expression
-  120 array: '[' expression_list . ']'
+  102 expression_list: expression_list . ',' expression
+  121 array: '[' expression_list . ']'
 
     ','  shift, and go to state 140
     ']'  shift, and go to state 154
@@ -1585,49 +1587,49 @@ state 133
 
 state 134
 
-  124 iovec: '{' ELLIPSIS . ',' decimal_integer '}'
+  125 iovec: '{' ELLIPSIS . ',' decimal_integer '}'
 
     ','  shift, and go to state 155
 
 
 state 135
 
-  122 sockaddr: '{' SA_FAMILY . '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
+  123 sockaddr: '{' SA_FAMILY . '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
 
     '='  shift, and go to state 156
 
 
 state 136
 
-  123 msghdr: '{' MSG_NAME . '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
+  124 msghdr: '{' MSG_NAME . '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
 
     '('  shift, and go to state 157
 
 
 state 137
 
-  125 pollfd: '{' FD . '=' expression ',' EVENTS '=' expression opt_revents '}'
+  126 pollfd: '{' FD . '=' expression ',' EVENTS '=' expression opt_revents '}'
 
     '='  shift, and go to state 158
 
 
 state 138
 
-  128 linger: '{' ONOFF . '=' INTEGER ',' LINGER '=' INTEGER '}'
+  129 linger: '{' ONOFF . '=' INTEGER ',' LINGER '=' INTEGER '}'
 
     '='  shift, and go to state 159
 
 
 state 139
 
-   99 function_arguments: '(' expression_list ')' .
+  100 function_arguments: '(' expression_list ')' .
 
-    $default  reduce using rule 99 (function_arguments)
+    $default  reduce using rule 100 (function_arguments)
 
 
 state 140
 
-  101 expression_list: expression_list ',' . expression
+  102 expression_list: expression_list ',' . expression
 
     ELLIPSIS     shift, and go to state 98
     INET_ADDR    shift, and go to state 99
@@ -1653,7 +1655,7 @@ state 140
 
 state 141
 
-  118 binary_expression: expression '|' . expression
+  119 binary_expression: expression '|' . expression
 
     ELLIPSIS     shift, and go to state 98
     INET_ADDR    shift, and go to state 99
@@ -1679,13 +1681,13 @@ state 141
 
 state 142
 
-   94 syscall_spec: opt_end_time function_name function_arguments '=' expression . opt_errno opt_note
-  118 binary_expression: expression . '|' expression
+   95 syscall_spec: opt_end_time function_name function_arguments '=' expression . opt_errno opt_note
+  119 binary_expression: expression . '|' expression
 
     WORD  shift, and go to state 162
     '|'   shift, and go to state 141
 
-    $default  reduce using rule 129 (opt_errno)
+    $default  reduce using rule 130 (opt_errno)
 
     opt_errno  go to state 163
 
@@ -1766,21 +1768,21 @@ state 152
 
 state 153
 
-  121 inaddr: INET_ADDR '(' STRING . ')'
+  122 inaddr: INET_ADDR '(' STRING . ')'
 
     ')'  shift, and go to state 171
 
 
 state 154
 
-  120 array: '[' expression_list ']' .
+  121 array: '[' expression_list ']' .
 
-    $default  reduce using rule 120 (array)
+    $default  reduce using rule 121 (array)
 
 
 state 155
 
-  124 iovec: '{' ELLIPSIS ',' . decimal_integer '}'
+  125 iovec: '{' ELLIPSIS ',' . decimal_integer '}'
 
     INTEGER  shift, and go to state 100
 
@@ -1789,21 +1791,21 @@ state 155
 
 state 156
 
-  122 sockaddr: '{' SA_FAMILY '=' . WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
+  123 sockaddr: '{' SA_FAMILY '=' . WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
 
     WORD  shift, and go to state 173
 
 
 state 157
 
-  123 msghdr: '{' MSG_NAME '(' . ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
+  124 msghdr: '{' MSG_NAME '(' . ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
 
     ELLIPSIS  shift, and go to state 174
 
 
 state 158
 
-  125 pollfd: '{' FD '=' . expression ',' EVENTS '=' expression opt_revents '}'
+  126 pollfd: '{' FD '=' . expression ',' EVENTS '=' expression opt_revents '}'
 
     ELLIPSIS     shift, and go to state 98
     INET_ADDR    shift, and go to state 99
@@ -1829,35 +1831,35 @@ state 158
 
 state 159
 
-  128 linger: '{' ONOFF '=' . INTEGER ',' LINGER '=' INTEGER '}'
+  129 linger: '{' ONOFF '=' . INTEGER ',' LINGER '=' INTEGER '}'
 
     INTEGER  shift, and go to state 176
 
 
 state 160
 
-  101 expression_list: expression_list ',' expression .
-  118 binary_expression: expression . '|' expression
+  102 expression_list: expression_list ',' expression .
+  119 binary_expression: expression . '|' expression
 
     '|'  shift, and go to state 141
 
-    $default  reduce using rule 101 (expression_list)
+    $default  reduce using rule 102 (expression_list)
 
 
 state 161
 
-  118 binary_expression: expression . '|' expression
-  118                  | expression '|' expression .
+  119 binary_expression: expression . '|' expression
+  119                  | expression '|' expression .
 
     '|'  shift, and go to state 141
 
-    '|'       [reduce using rule 118 (binary_expression)]
-    $default  reduce using rule 118 (binary_expression)
+    '|'       [reduce using rule 119 (binary_expression)]
+    $default  reduce using rule 119 (binary_expression)
 
 
 state 162
 
-  130 opt_errno: WORD . note
+  131 opt_errno: WORD . note
 
     '('  shift, and go to state 177
 
@@ -1866,11 +1868,11 @@ state 162
 
 state 163
 
-   94 syscall_spec: opt_end_time function_name function_arguments '=' expression opt_errno . opt_note
+   95 syscall_spec: opt_end_time function_name function_arguments '=' expression opt_errno . opt_note
 
     '('  shift, and go to state 177
 
-    $default  reduce using rule 131 (opt_note)
+    $default  reduce using rule 132 (opt_note)
 
     opt_note  go to state 179
     note      go to state 180
@@ -1924,10 +1926,11 @@ state 169
     SACKOK     shift, and go to state 188
     TIMESTAMP  shift, and go to state 189
     WSCALE     shift, and go to state 190
-    FAST_OPEN  shift, and go to state 191
+    NO_CHECK   shift, and go to state 191
+    FAST_OPEN  shift, and go to state 192
 
-    tcp_option_list  go to state 192
-    tcp_option       go to state 193
+    tcp_option_list  go to state 193
+    tcp_option       go to state 194
 
 
 state 170
@@ -1939,83 +1942,83 @@ state 170
 
 state 171
 
-  121 inaddr: INET_ADDR '(' STRING ')' .
+  122 inaddr: INET_ADDR '(' STRING ')' .
 
-    $default  reduce using rule 121 (inaddr)
+    $default  reduce using rule 122 (inaddr)
 
 
 state 172
 
-  124 iovec: '{' ELLIPSIS ',' decimal_integer . '}'
+  125 iovec: '{' ELLIPSIS ',' decimal_integer . '}'
 
-    '}'  shift, and go to state 194
+    '}'  shift, and go to state 195
 
 
 state 173
 
-  122 sockaddr: '{' SA_FAMILY '=' WORD . ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
+  123 sockaddr: '{' SA_FAMILY '=' WORD . ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
 
-    ','  shift, and go to state 195
+    ','  shift, and go to state 196
 
 
 state 174
 
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS . ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS . ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
 
-    ')'  shift, and go to state 196
+    ')'  shift, and go to state 197
 
 
 state 175
 
-  118 binary_expression: expression . '|' expression
-  125 pollfd: '{' FD '=' expression . ',' EVENTS '=' expression opt_revents '}'
+  119 binary_expression: expression . '|' expression
+  126 pollfd: '{' FD '=' expression . ',' EVENTS '=' expression opt_revents '}'
 
-    ','  shift, and go to state 197
+    ','  shift, and go to state 198
     '|'  shift, and go to state 141
 
 
 state 176
 
-  128 linger: '{' ONOFF '=' INTEGER . ',' LINGER '=' INTEGER '}'
+  129 linger: '{' ONOFF '=' INTEGER . ',' LINGER '=' INTEGER '}'
 
-    ','  shift, and go to state 198
+    ','  shift, and go to state 199
 
 
 state 177
 
-  133 note: '(' . word_list ')'
+  134 note: '(' . word_list ')'
 
-    WORD  shift, and go to state 199
+    WORD  shift, and go to state 200
 
-    word_list  go to state 200
+    word_list  go to state 201
 
 
 state 178
 
-  130 opt_errno: WORD note .
+  131 opt_errno: WORD note .
 
-    $default  reduce using rule 130 (opt_errno)
+    $default  reduce using rule 131 (opt_errno)
 
 
 state 179
 
-   94 syscall_spec: opt_end_time function_name function_arguments '=' expression opt_errno opt_note .
+   95 syscall_spec: opt_end_time function_name function_arguments '=' expression opt_errno opt_note .
 
-    $default  reduce using rule 94 (syscall_spec)
+    $default  reduce using rule 95 (syscall_spec)
 
 
 state 180
 
-  132 opt_note: note .
+  133 opt_note: note .
 
-    $default  reduce using rule 132 (opt_note)
+    $default  reduce using rule 133 (opt_note)
 
 
 state 181
 
    45 mpls_stack_entry: '(' LABEL INTEGER ',' TC . INTEGER ',' opt_mpls_stack_bottom TTL INTEGER ')'
 
-    INTEGER  shift, and go to state 201
+    INTEGER  shift, and go to state 202
 
 
 state 182
@@ -2029,7 +2032,7 @@ state 183
 
    76 opt_tcp_options: '<' ELLIPSIS . '>'
 
-    '>'  shift, and go to state 202
+    '>'  shift, and go to state 203
 
 
 state 184
@@ -2043,7 +2046,7 @@ state 185
 
    85 tcp_option: MSS . INTEGER
 
-    INTEGER  shift, and go to state 203
+    INTEGER  shift, and go to state 204
 
 
 state 186
@@ -2057,10 +2060,10 @@ state 187
 
    88 tcp_option: SACK . sack_block_list
 
-    INTEGER  shift, and go to state 204
+    INTEGER  shift, and go to state 205
 
-    sack_block_list  go to state 205
-    sack_block       go to state 206
+    sack_block_list  go to state 206
+    sack_block       go to state 207
 
 
 state 188
@@ -2074,193 +2077,200 @@ state 189
 
    89 tcp_option: TIMESTAMP . VAL INTEGER ECR INTEGER
 
-    VAL  shift, and go to state 207
+    VAL  shift, and go to state 208
 
 
 state 190
 
    86 tcp_option: WSCALE . INTEGER
 
-    INTEGER  shift, and go to state 208
+    INTEGER  shift, and go to state 209
 
 
 state 191
 
-   90 tcp_option: FAST_OPEN . opt_tcp_fast_open_cookie
+   91 tcp_option: NO_CHECK .
 
-    INTEGER  shift, and go to state 209
-    WORD     shift, and go to state 210
-
-    $default  reduce using rule 79 (opt_tcp_fast_open_cookie)
-
-    opt_tcp_fast_open_cookie  go to state 211
-    tcp_fast_open_cookie      go to state 212
+    $default  reduce using rule 91 (tcp_option)
 
 
 state 192
 
-   75 opt_tcp_options: '<' tcp_option_list . '>'
-   78 tcp_option_list: tcp_option_list . ',' tcp_option
+   90 tcp_option: FAST_OPEN . opt_tcp_fast_open_cookie
 
-    '>'  shift, and go to state 213
-    ','  shift, and go to state 214
+    INTEGER  shift, and go to state 210
+    WORD     shift, and go to state 211
+
+    $default  reduce using rule 79 (opt_tcp_fast_open_cookie)
+
+    opt_tcp_fast_open_cookie  go to state 212
+    tcp_fast_open_cookie      go to state 213
 
 
 state 193
+
+   75 opt_tcp_options: '<' tcp_option_list . '>'
+   78 tcp_option_list: tcp_option_list . ',' tcp_option
+
+    '>'  shift, and go to state 214
+    ','  shift, and go to state 215
+
+
+state 194
 
    77 tcp_option_list: tcp_option .
 
     $default  reduce using rule 77 (tcp_option_list)
 
 
-state 194
-
-  124 iovec: '{' ELLIPSIS ',' decimal_integer '}' .
-
-    $default  reduce using rule 124 (iovec)
-
-
 state 195
 
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' . SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
+  125 iovec: '{' ELLIPSIS ',' decimal_integer '}' .
 
-    SIN_PORT  shift, and go to state 215
+    $default  reduce using rule 125 (iovec)
 
 
 state 196
 
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' . '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' . SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
 
-    '='  shift, and go to state 216
+    SIN_PORT  shift, and go to state 216
 
 
 state 197
 
-  125 pollfd: '{' FD '=' expression ',' . EVENTS '=' expression opt_revents '}'
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' . '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
 
-    EVENTS  shift, and go to state 217
+    '='  shift, and go to state 217
 
 
 state 198
 
-  128 linger: '{' ONOFF '=' INTEGER ',' . LINGER '=' INTEGER '}'
+  126 pollfd: '{' FD '=' expression ',' . EVENTS '=' expression opt_revents '}'
 
-    LINGER  shift, and go to state 218
+    EVENTS  shift, and go to state 218
 
 
 state 199
 
-  134 word_list: WORD .
+  129 linger: '{' ONOFF '=' INTEGER ',' . LINGER '=' INTEGER '}'
 
-    $default  reduce using rule 134 (word_list)
+    LINGER  shift, and go to state 219
 
 
 state 200
 
-  133 note: '(' word_list . ')'
-  135 word_list: word_list . WORD
+  135 word_list: WORD .
 
-    WORD  shift, and go to state 219
-    ')'   shift, and go to state 220
+    $default  reduce using rule 135 (word_list)
 
 
 state 201
 
-   45 mpls_stack_entry: '(' LABEL INTEGER ',' TC INTEGER . ',' opt_mpls_stack_bottom TTL INTEGER ')'
+  134 note: '(' word_list . ')'
+  136 word_list: word_list . WORD
 
-    ','  shift, and go to state 221
+    WORD  shift, and go to state 220
+    ')'   shift, and go to state 221
 
 
 state 202
+
+   45 mpls_stack_entry: '(' LABEL INTEGER ',' TC INTEGER . ',' opt_mpls_stack_bottom TTL INTEGER ')'
+
+    ','  shift, and go to state 222
+
+
+state 203
 
    76 opt_tcp_options: '<' ELLIPSIS '>' .
 
     $default  reduce using rule 76 (opt_tcp_options)
 
 
-state 203
+state 204
 
    85 tcp_option: MSS INTEGER .
 
     $default  reduce using rule 85 (tcp_option)
 
 
-state 204
-
-   93 sack_block: INTEGER . ':' INTEGER
-
-    ':'  shift, and go to state 222
-
-
 state 205
 
-   88 tcp_option: SACK sack_block_list .
-   92 sack_block_list: sack_block_list . sack_block
+   94 sack_block: INTEGER . ':' INTEGER
 
-    INTEGER  shift, and go to state 204
-
-    $default  reduce using rule 88 (tcp_option)
-
-    sack_block  go to state 223
+    ':'  shift, and go to state 223
 
 
 state 206
 
-   91 sack_block_list: sack_block .
+   88 tcp_option: SACK sack_block_list .
+   93 sack_block_list: sack_block_list . sack_block
 
-    $default  reduce using rule 91 (sack_block_list)
+    INTEGER  shift, and go to state 205
+
+    $default  reduce using rule 88 (tcp_option)
+
+    sack_block  go to state 224
 
 
 state 207
 
-   89 tcp_option: TIMESTAMP VAL . INTEGER ECR INTEGER
+   92 sack_block_list: sack_block .
 
-    INTEGER  shift, and go to state 224
+    $default  reduce using rule 92 (sack_block_list)
 
 
 state 208
+
+   89 tcp_option: TIMESTAMP VAL . INTEGER ECR INTEGER
+
+    INTEGER  shift, and go to state 225
+
+
+state 209
 
    86 tcp_option: WSCALE INTEGER .
 
     $default  reduce using rule 86 (tcp_option)
 
 
-state 209
+state 210
 
    82 tcp_fast_open_cookie: INTEGER .
 
     $default  reduce using rule 82 (tcp_fast_open_cookie)
 
 
-state 210
+state 211
 
    81 tcp_fast_open_cookie: WORD .
 
     $default  reduce using rule 81 (tcp_fast_open_cookie)
 
 
-state 211
+state 212
 
    90 tcp_option: FAST_OPEN opt_tcp_fast_open_cookie .
 
     $default  reduce using rule 90 (tcp_option)
 
 
-state 212
+state 213
 
    80 opt_tcp_fast_open_cookie: tcp_fast_open_cookie .
 
     $default  reduce using rule 80 (opt_tcp_fast_open_cookie)
 
 
-state 213
+state 214
 
    75 opt_tcp_options: '<' tcp_option_list '>' .
 
     $default  reduce using rule 75 (opt_tcp_options)
 
 
-state 214
+state 215
 
    78 tcp_option_list: tcp_option_list ',' . tcp_option
 
@@ -2271,109 +2281,110 @@ state 214
     SACKOK     shift, and go to state 188
     TIMESTAMP  shift, and go to state 189
     WSCALE     shift, and go to state 190
-    FAST_OPEN  shift, and go to state 191
+    NO_CHECK   shift, and go to state 191
+    FAST_OPEN  shift, and go to state 192
 
-    tcp_option  go to state 225
-
-
-state 215
-
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT . '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
-
-    '='  shift, and go to state 226
+    tcp_option  go to state 226
 
 
 state 216
 
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' . ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT . '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
 
-    ELLIPSIS  shift, and go to state 227
+    '='  shift, and go to state 227
 
 
 state 217
 
-  125 pollfd: '{' FD '=' expression ',' EVENTS . '=' expression opt_revents '}'
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' . ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
 
-    '='  shift, and go to state 228
+    ELLIPSIS  shift, and go to state 228
 
 
 state 218
 
-  128 linger: '{' ONOFF '=' INTEGER ',' LINGER . '=' INTEGER '}'
+  126 pollfd: '{' FD '=' expression ',' EVENTS . '=' expression opt_revents '}'
 
     '='  shift, and go to state 229
 
 
 state 219
 
-  135 word_list: word_list WORD .
+  129 linger: '{' ONOFF '=' INTEGER ',' LINGER . '=' INTEGER '}'
 
-    $default  reduce using rule 135 (word_list)
+    '='  shift, and go to state 230
 
 
 state 220
 
-  133 note: '(' word_list ')' .
+  136 word_list: word_list WORD .
 
-    $default  reduce using rule 133 (note)
+    $default  reduce using rule 136 (word_list)
 
 
 state 221
 
-   45 mpls_stack_entry: '(' LABEL INTEGER ',' TC INTEGER ',' . opt_mpls_stack_bottom TTL INTEGER ')'
+  134 note: '(' word_list ')' .
 
-    '['  shift, and go to state 230
-
-    $default  reduce using rule 46 (opt_mpls_stack_bottom)
-
-    opt_mpls_stack_bottom  go to state 231
+    $default  reduce using rule 134 (note)
 
 
 state 222
 
-   93 sack_block: INTEGER ':' . INTEGER
+   45 mpls_stack_entry: '(' LABEL INTEGER ',' TC INTEGER ',' . opt_mpls_stack_bottom TTL INTEGER ')'
 
-    INTEGER  shift, and go to state 232
+    '['  shift, and go to state 231
+
+    $default  reduce using rule 46 (opt_mpls_stack_bottom)
+
+    opt_mpls_stack_bottom  go to state 232
 
 
 state 223
 
-   92 sack_block_list: sack_block_list sack_block .
+   94 sack_block: INTEGER ':' . INTEGER
 
-    $default  reduce using rule 92 (sack_block_list)
+    INTEGER  shift, and go to state 233
 
 
 state 224
 
-   89 tcp_option: TIMESTAMP VAL INTEGER . ECR INTEGER
+   93 sack_block_list: sack_block_list sack_block .
 
-    ECR  shift, and go to state 233
+    $default  reduce using rule 93 (sack_block_list)
 
 
 state 225
+
+   89 tcp_option: TIMESTAMP VAL INTEGER . ECR INTEGER
+
+    ECR  shift, and go to state 234
+
+
+state 226
 
    78 tcp_option_list: tcp_option_list ',' tcp_option .
 
     $default  reduce using rule 78 (tcp_option_list)
 
 
-state 226
-
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' . _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
-
-    _HTONS_  shift, and go to state 234
-
-
 state 227
 
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS . ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' . _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
 
-    ','  shift, and go to state 235
+    _HTONS_  shift, and go to state 235
 
 
 state 228
 
-  125 pollfd: '{' FD '=' expression ',' EVENTS '=' . expression opt_revents '}'
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS . ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
+
+    ','  shift, and go to state 236
+
+
+state 229
+
+  126 pollfd: '{' FD '=' expression ',' EVENTS '=' . expression opt_revents '}'
 
     ELLIPSIS     shift, and go to state 98
     INET_ADDR    shift, and go to state 99
@@ -2384,7 +2395,7 @@ state 228
     '['          shift, and go to state 105
     '{'          shift, and go to state 106
 
-    expression         go to state 236
+    expression         go to state 237
     decimal_integer    go to state 109
     hex_integer        go to state 110
     binary_expression  go to state 111
@@ -2397,321 +2408,206 @@ state 228
     linger             go to state 118
 
 
-state 229
-
-  128 linger: '{' ONOFF '=' INTEGER ',' LINGER '=' . INTEGER '}'
-
-    INTEGER  shift, and go to state 237
-
-
 state 230
 
-   47 opt_mpls_stack_bottom: '[' . WORD ']' ','
+  129 linger: '{' ONOFF '=' INTEGER ',' LINGER '=' . INTEGER '}'
 
-    WORD  shift, and go to state 238
+    INTEGER  shift, and go to state 238
 
 
 state 231
 
-   45 mpls_stack_entry: '(' LABEL INTEGER ',' TC INTEGER ',' opt_mpls_stack_bottom . TTL INTEGER ')'
+   47 opt_mpls_stack_bottom: '[' . WORD ']' ','
 
-    TTL  shift, and go to state 239
+    WORD  shift, and go to state 239
 
 
 state 232
 
-   93 sack_block: INTEGER ':' INTEGER .
+   45 mpls_stack_entry: '(' LABEL INTEGER ',' TC INTEGER ',' opt_mpls_stack_bottom . TTL INTEGER ')'
 
-    $default  reduce using rule 93 (sack_block)
+    TTL  shift, and go to state 240
 
 
 state 233
 
-   89 tcp_option: TIMESTAMP VAL INTEGER ECR . INTEGER
+   94 sack_block: INTEGER ':' INTEGER .
 
-    INTEGER  shift, and go to state 240
+    $default  reduce using rule 94 (sack_block)
 
 
 state 234
 
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ . '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
+   89 tcp_option: TIMESTAMP VAL INTEGER ECR . INTEGER
 
-    '('  shift, and go to state 241
+    INTEGER  shift, and go to state 241
 
 
 state 235
 
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' . MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ . '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
 
-    MSG_IOV  shift, and go to state 242
+    '('  shift, and go to state 242
 
 
 state 236
 
-  118 binary_expression: expression . '|' expression
-  125 pollfd: '{' FD '=' expression ',' EVENTS '=' expression . opt_revents '}'
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' . MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
 
-    ','  shift, and go to state 243
-    '|'  shift, and go to state 141
-
-    $default  reduce using rule 126 (opt_revents)
-
-    opt_revents  go to state 244
+    MSG_IOV  shift, and go to state 243
 
 
 state 237
 
-  128 linger: '{' ONOFF '=' INTEGER ',' LINGER '=' INTEGER . '}'
+  119 binary_expression: expression . '|' expression
+  126 pollfd: '{' FD '=' expression ',' EVENTS '=' expression . opt_revents '}'
 
-    '}'  shift, and go to state 245
+    ','  shift, and go to state 244
+    '|'  shift, and go to state 141
+
+    $default  reduce using rule 127 (opt_revents)
+
+    opt_revents  go to state 245
 
 
 state 238
 
-   47 opt_mpls_stack_bottom: '[' WORD . ']' ','
+  129 linger: '{' ONOFF '=' INTEGER ',' LINGER '=' INTEGER . '}'
 
-    ']'  shift, and go to state 246
+    '}'  shift, and go to state 246
 
 
 state 239
 
-   45 mpls_stack_entry: '(' LABEL INTEGER ',' TC INTEGER ',' opt_mpls_stack_bottom TTL . INTEGER ')'
+   47 opt_mpls_stack_bottom: '[' WORD . ']' ','
 
-    INTEGER  shift, and go to state 247
+    ']'  shift, and go to state 247
 
 
 state 240
+
+   45 mpls_stack_entry: '(' LABEL INTEGER ',' TC INTEGER ',' opt_mpls_stack_bottom TTL . INTEGER ')'
+
+    INTEGER  shift, and go to state 248
+
+
+state 241
 
    89 tcp_option: TIMESTAMP VAL INTEGER ECR INTEGER .
 
     $default  reduce using rule 89 (tcp_option)
 
 
-state 241
-
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' . INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
-
-    INTEGER  shift, and go to state 248
-
-
 state 242
 
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV . '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' . INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
 
-    '('  shift, and go to state 249
+    INTEGER  shift, and go to state 249
 
 
 state 243
 
-  127 opt_revents: ',' . REVENTS '=' expression
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV . '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
 
-    REVENTS  shift, and go to state 250
+    '('  shift, and go to state 250
 
 
 state 244
 
-  125 pollfd: '{' FD '=' expression ',' EVENTS '=' expression opt_revents . '}'
+  128 opt_revents: ',' . REVENTS '=' expression
 
-    '}'  shift, and go to state 251
+    REVENTS  shift, and go to state 251
 
 
 state 245
 
-  128 linger: '{' ONOFF '=' INTEGER ',' LINGER '=' INTEGER '}' .
+  126 pollfd: '{' FD '=' expression ',' EVENTS '=' expression opt_revents . '}'
 
-    $default  reduce using rule 128 (linger)
+    '}'  shift, and go to state 252
 
 
 state 246
 
-   47 opt_mpls_stack_bottom: '[' WORD ']' . ','
+  129 linger: '{' ONOFF '=' INTEGER ',' LINGER '=' INTEGER '}' .
 
-    ','  shift, and go to state 252
+    $default  reduce using rule 129 (linger)
 
 
 state 247
 
-   45 mpls_stack_entry: '(' LABEL INTEGER ',' TC INTEGER ',' opt_mpls_stack_bottom TTL INTEGER . ')'
+   47 opt_mpls_stack_bottom: '[' WORD ']' . ','
 
-    ')'  shift, and go to state 253
+    ','  shift, and go to state 253
 
 
 state 248
 
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER . ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
+   45 mpls_stack_entry: '(' LABEL INTEGER ',' TC INTEGER ',' opt_mpls_stack_bottom TTL INTEGER . ')'
 
     ')'  shift, and go to state 254
 
 
 state 249
 
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' . decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER . ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
 
-    INTEGER  shift, and go to state 100
-
-    decimal_integer  go to state 255
+    ')'  shift, and go to state 255
 
 
 state 250
 
-  127 opt_revents: ',' REVENTS . '=' expression
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' . decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}'
 
-    '='  shift, and go to state 256
+    INTEGER  shift, and go to state 100
+
+    decimal_integer  go to state 256
 
 
 state 251
 
-  125 pollfd: '{' FD '=' expression ',' EVENTS '=' expression opt_revents '}' .
+  128 opt_revents: ',' REVENTS . '=' expression
 
-    $default  reduce using rule 125 (pollfd)
+    '='  shift, and go to state 257
 
 
 state 252
+
+  126 pollfd: '{' FD '=' expression ',' EVENTS '=' expression opt_revents '}' .
+
+    $default  reduce using rule 126 (pollfd)
+
+
+state 253
 
    47 opt_mpls_stack_bottom: '[' WORD ']' ',' .
 
     $default  reduce using rule 47 (opt_mpls_stack_bottom)
 
 
-state 253
+state 254
 
    45 mpls_stack_entry: '(' LABEL INTEGER ',' TC INTEGER ',' opt_mpls_stack_bottom TTL INTEGER ')' .
 
     $default  reduce using rule 45 (mpls_stack_entry)
 
 
-state 254
-
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' . ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
-
-    ','  shift, and go to state 257
-
-
 state 255
 
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer . ')' '=' array ',' MSG_FLAGS '=' expression '}'
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' . ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
 
-    ')'  shift, and go to state 258
+    ','  shift, and go to state 258
 
 
 state 256
 
-  127 opt_revents: ',' REVENTS '=' . expression
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer . ')' '=' array ',' MSG_FLAGS '=' expression '}'
 
-    ELLIPSIS     shift, and go to state 98
-    INET_ADDR    shift, and go to state 99
-    INTEGER      shift, and go to state 100
-    HEX_INTEGER  shift, and go to state 101
-    WORD         shift, and go to state 102
-    STRING       shift, and go to state 103
-    '['          shift, and go to state 105
-    '{'          shift, and go to state 106
-
-    expression         go to state 259
-    decimal_integer    go to state 109
-    hex_integer        go to state 110
-    binary_expression  go to state 111
-    array              go to state 112
-    inaddr             go to state 113
-    sockaddr           go to state 114
-    msghdr             go to state 115
-    iovec              go to state 116
-    pollfd             go to state 117
-    linger             go to state 118
+    ')'  shift, and go to state 259
 
 
 state 257
 
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' . SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
-
-    SIN_ADDR  shift, and go to state 260
-
-
-state 258
-
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' . '=' array ',' MSG_FLAGS '=' expression '}'
-
-    '='  shift, and go to state 261
-
-
-state 259
-
-  118 binary_expression: expression . '|' expression
-  127 opt_revents: ',' REVENTS '=' expression .
-
-    '|'  shift, and go to state 141
-
-    $default  reduce using rule 127 (opt_revents)
-
-
-state 260
-
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR . '=' INET_ADDR '(' STRING ')' '}'
-
-    '='  shift, and go to state 262
-
-
-state 261
-
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' . array ',' MSG_FLAGS '=' expression '}'
-
-    '['  shift, and go to state 105
-
-    array  go to state 263
-
-
-state 262
-
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' . INET_ADDR '(' STRING ')' '}'
-
-    INET_ADDR  shift, and go to state 264
-
-
-state 263
-
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array . ',' MSG_FLAGS '=' expression '}'
-
-    ','  shift, and go to state 265
-
-
-state 264
-
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR . '(' STRING ')' '}'
-
-    '('  shift, and go to state 266
-
-
-state 265
-
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' . MSG_FLAGS '=' expression '}'
-
-    MSG_FLAGS  shift, and go to state 267
-
-
-state 266
-
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' . STRING ')' '}'
-
-    STRING  shift, and go to state 268
-
-
-state 267
-
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS . '=' expression '}'
-
-    '='  shift, and go to state 269
-
-
-state 268
-
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING . ')' '}'
-
-    ')'  shift, and go to state 270
-
-
-state 269
-
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' . expression '}'
+  128 opt_revents: ',' REVENTS '=' . expression
 
     ELLIPSIS     shift, and go to state 98
     INET_ADDR    shift, and go to state 99
@@ -2722,7 +2618,7 @@ state 269
     '['          shift, and go to state 105
     '{'          shift, and go to state 106
 
-    expression         go to state 271
+    expression         go to state 260
     decimal_integer    go to state 109
     hex_integer        go to state 110
     binary_expression  go to state 111
@@ -2735,31 +2631,146 @@ state 269
     linger             go to state 118
 
 
+state 258
+
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' . SIN_ADDR '=' INET_ADDR '(' STRING ')' '}'
+
+    SIN_ADDR  shift, and go to state 261
+
+
+state 259
+
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' . '=' array ',' MSG_FLAGS '=' expression '}'
+
+    '='  shift, and go to state 262
+
+
+state 260
+
+  119 binary_expression: expression . '|' expression
+  128 opt_revents: ',' REVENTS '=' expression .
+
+    '|'  shift, and go to state 141
+
+    $default  reduce using rule 128 (opt_revents)
+
+
+state 261
+
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR . '=' INET_ADDR '(' STRING ')' '}'
+
+    '='  shift, and go to state 263
+
+
+state 262
+
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' . array ',' MSG_FLAGS '=' expression '}'
+
+    '['  shift, and go to state 105
+
+    array  go to state 264
+
+
+state 263
+
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' . INET_ADDR '(' STRING ')' '}'
+
+    INET_ADDR  shift, and go to state 265
+
+
+state 264
+
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array . ',' MSG_FLAGS '=' expression '}'
+
+    ','  shift, and go to state 266
+
+
+state 265
+
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR . '(' STRING ')' '}'
+
+    '('  shift, and go to state 267
+
+
+state 266
+
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' . MSG_FLAGS '=' expression '}'
+
+    MSG_FLAGS  shift, and go to state 268
+
+
+state 267
+
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' . STRING ')' '}'
+
+    STRING  shift, and go to state 269
+
+
+state 268
+
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS . '=' expression '}'
+
+    '='  shift, and go to state 270
+
+
+state 269
+
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING . ')' '}'
+
+    ')'  shift, and go to state 271
+
+
 state 270
 
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' . '}'
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' . expression '}'
 
-    '}'  shift, and go to state 272
+    ELLIPSIS     shift, and go to state 98
+    INET_ADDR    shift, and go to state 99
+    INTEGER      shift, and go to state 100
+    HEX_INTEGER  shift, and go to state 101
+    WORD         shift, and go to state 102
+    STRING       shift, and go to state 103
+    '['          shift, and go to state 105
+    '{'          shift, and go to state 106
+
+    expression         go to state 272
+    decimal_integer    go to state 109
+    hex_integer        go to state 110
+    binary_expression  go to state 111
+    array              go to state 112
+    inaddr             go to state 113
+    sockaddr           go to state 114
+    msghdr             go to state 115
+    iovec              go to state 116
+    pollfd             go to state 117
+    linger             go to state 118
 
 
 state 271
 
-  118 binary_expression: expression . '|' expression
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression . '}'
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' . '}'
 
-    '|'  shift, and go to state 141
     '}'  shift, and go to state 273
 
 
 state 272
 
-  122 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}' .
+  119 binary_expression: expression . '|' expression
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression . '}'
 
-    $default  reduce using rule 122 (sockaddr)
+    '|'  shift, and go to state 141
+    '}'  shift, and go to state 274
 
 
 state 273
 
-  123 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}' .
+  123 sockaddr: '{' SA_FAMILY '=' WORD ',' SIN_PORT '=' _HTONS_ '(' INTEGER ')' ',' SIN_ADDR '=' INET_ADDR '(' STRING ')' '}' .
 
-    $default  reduce using rule 123 (msghdr)
+    $default  reduce using rule 123 (sockaddr)
+
+
+state 274
+
+  124 msghdr: '{' MSG_NAME '(' ELLIPSIS ')' '=' ELLIPSIS ',' MSG_IOV '(' decimal_integer ')' '=' array ',' MSG_FLAGS '=' expression '}' .
+
+    $default  reduce using rule 124 (msghdr)

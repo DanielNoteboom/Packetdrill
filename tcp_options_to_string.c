@@ -114,7 +114,10 @@ int tcp_options_to_string(struct packet *packet,
 				goto out;
 			}
 			break;
-
+                //added option
+                case 24:
+                  fputs("nocheck", s);
+                  break;
 		default:
 			asprintf(error, "unexpected TCP option kind: %u",
 				 option->kind);

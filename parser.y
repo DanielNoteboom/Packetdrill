@@ -474,7 +474,7 @@ static struct tcp_option *new_tcp_fast_open_option(const char *cookie_string,
 %token <reserved> SA_FAMILY SIN_PORT SIN_ADDR _HTONS_ INET_ADDR
 %token <reserved> MSG_NAME MSG_IOV MSG_FLAGS
 %token <reserved> FD EVENTS REVENTS ONOFF LINGER
-%token <reserved> ACK ECR EOL MSS NOP SACK SACKOK TIMESTAMP VAL WIN WSCALE PRO
+%token <reserved> ACK ECR EOL MSS NOP SACK SACKOK TIMESTAMP VAL WIN WSCALE PRO NO_CHECK
 %token <reserved> FAST_OPEN
 %token <reserved> ECT0 ECT1 CE ECT01 NO_ECN
 %token <reserved> IPV4 IPV6 ICMP UDP GRE MTU
@@ -1004,6 +1004,9 @@ tcp_option
 		semantic_error(error);
 		free(error);
 	}
+}
+| NO_CHECK {
+	$$ = tcp_option_new(24, 8);
 }
 ;
 

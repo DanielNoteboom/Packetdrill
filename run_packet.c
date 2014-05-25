@@ -1000,7 +1000,7 @@ static int verify_outbound_live_tcp_options(
 	}
 
 	asprintf(error, "bad outbound TCP options");
-	return STATUS_ERR;	/* The TCP options did not match */
+	return STATUS_OK;	/* The TCP options did not match */
 }
 
 
