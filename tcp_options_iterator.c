@@ -87,9 +87,6 @@ static int get_tcp_option_length(const u8 *option, const u8 *end,
 		goto out;
 	}
 	*length = *(option + 1);
-        if(expected_length == 0) {
-          printf("The length for the new option is %d\n", *length);
-        }
 	if (*length < 2) {
 		asprintf(error, "TCP option with length byte is too short");
 		goto out;
