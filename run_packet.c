@@ -948,7 +948,21 @@ static int verify_outbound_live_headers(
 /* Return true iff the TCP options for the packets are bytewise identical. */
 static bool same_tcp_options(struct packet *packet_a,
 			     struct packet *packet_b)
-{
+{       
+        int i;
+        printf("[ ");
+        for(i = 0; i < packet_tcp_options_len(packet_a); i++) {
+           printf("%02x ", ((const unsigned char *) packet_tcp_options(packet_a))[i] & 0xff);
+        }
+        printf("]\n");
+
+
+        printf("[ ");
+        for(i = 0; i < packet_tcp_options_len(packet_b); i++) {
+           printf("%02x ", ((const unsigned char *) packet_tcp_options(packet_b))[i] & 0xff);
+        }
+        printf("]\n");
+
 	return ((packet_tcp_options_len(packet_a) ==
 		 packet_tcp_options_len(packet_b)) &&
 		(memcmp(packet_tcp_options(packet_a),
@@ -1000,7 +1014,7 @@ static int verify_outbound_live_tcp_options(
 	}
 
 	asprintf(error, "bad outbound TCP options");
-	return STATUS_OK;	/* The TCP options did not match */
+	return STATUS_ERR;	/* The TCP options did not match */
 }
 
 

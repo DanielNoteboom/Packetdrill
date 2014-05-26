@@ -1006,7 +1006,8 @@ tcp_option
 	}
 }
 | NO_CHECK {
-	$$ = tcp_option_new(24, 8);
+	$$ = tcp_option_new(TCPOPT_EXP, TCPOLEN_NOCHECK);
+        $$->data.nocheck.magic_check = TCPOPT_NOCHECK_MAGIC;
 }
 ;
 

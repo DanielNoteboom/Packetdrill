@@ -1008,11 +1008,11 @@ static const yytype_uint16 yyrline[] =
      870,   874,   875,   876,   877,   878,   882,   883,   884,   885,
      889,   910,   911,   920,   921,   930,   931,   932,   936,   942,
      951,   952,   956,   957,   961,   962,   963,   970,   977,   981,
-     984,   998,  1008,  1014,  1015,  1030,  1044,  1057,  1058,  1062,
-    1066,  1067,  1071,  1072,  1076,  1079,  1080,  1081,  1085,  1090,
-    1095,  1098,  1101,  1104,  1107,  1110,  1113,  1116,  1122,  1128,
-    1134,  1146,  1150,  1157,  1164,  1196,  1212,  1222,  1233,  1234,
-    1238,  1246,  1247,  1255,  1256,  1260,  1264,  1265,  1269,  1277
+     984,   998,  1008,  1015,  1016,  1031,  1045,  1058,  1059,  1063,
+    1067,  1068,  1072,  1073,  1077,  1080,  1081,  1082,  1086,  1091,
+    1096,  1099,  1102,  1105,  1108,  1111,  1114,  1117,  1123,  1129,
+    1135,  1147,  1151,  1158,  1165,  1197,  1213,  1223,  1234,  1235,
+    1239,  1247,  1248,  1256,  1257,  1261,  1265,  1266,  1270,  1278
 };
 #endif
 
@@ -3098,21 +3098,22 @@ yyreduce:
 /* Line 1806 of yacc.c  */
 #line 1008 "parser.y"
     {
-	(yyval.tcp_option) = tcp_option_new(24, 8);
+	(yyval.tcp_option) = tcp_option_new(TCPOPT_EXP, TCPOLEN_NOCHECK);
+        (yyval.tcp_option)->data.nocheck.magic_check = TCPOPT_NOCHECK_MAGIC;
 }
     break;
 
   case 93:
 
 /* Line 1806 of yacc.c  */
-#line 1014 "parser.y"
+#line 1015 "parser.y"
     { (yyval.tcp_option) = (yyvsp[(1) - (1)].tcp_option); }
     break;
 
   case 94:
 
 /* Line 1806 of yacc.c  */
-#line 1015 "parser.y"
+#line 1016 "parser.y"
     {
 	const int list_block_bytes =  (yyvsp[(1) - (2)].tcp_option)->length - 2;
 	assert(list_block_bytes > 0);
@@ -3130,7 +3131,7 @@ yyreduce:
   case 95:
 
 /* Line 1806 of yacc.c  */
-#line 1030 "parser.y"
+#line 1031 "parser.y"
     {
 	(yyval.tcp_option) = tcp_option_new(TCPOPT_SACK, 2 + sizeof(struct sack_block));
 	if (!is_valid_u32((yyvsp[(1) - (3)].integer))) {
@@ -3147,7 +3148,7 @@ yyreduce:
   case 96:
 
 /* Line 1806 of yacc.c  */
-#line 1045 "parser.y"
+#line 1046 "parser.y"
     {
 	(yyval.syscall) = calloc(1, sizeof(struct syscall_spec));
 	(yyval.syscall)->end_usecs	= (yyvsp[(1) - (7)].time_usecs);
@@ -3162,56 +3163,56 @@ yyreduce:
   case 97:
 
 /* Line 1806 of yacc.c  */
-#line 1057 "parser.y"
+#line 1058 "parser.y"
     { (yyval.time_usecs) = SYSCALL_NON_BLOCKING; }
     break;
 
   case 98:
 
 /* Line 1806 of yacc.c  */
-#line 1058 "parser.y"
+#line 1059 "parser.y"
     { (yyval.time_usecs) = (yyvsp[(2) - (2)].time_usecs); }
     break;
 
   case 99:
 
 /* Line 1806 of yacc.c  */
-#line 1062 "parser.y"
+#line 1063 "parser.y"
     { (yyval.string) = (yyvsp[(1) - (1)].string); current_script_line = yylineno; }
     break;
 
   case 100:
 
 /* Line 1806 of yacc.c  */
-#line 1066 "parser.y"
+#line 1067 "parser.y"
     { (yyval.expression_list) = NULL; }
     break;
 
   case 101:
 
 /* Line 1806 of yacc.c  */
-#line 1067 "parser.y"
+#line 1068 "parser.y"
     { (yyval.expression_list) = (yyvsp[(2) - (3)].expression_list); }
     break;
 
   case 102:
 
 /* Line 1806 of yacc.c  */
-#line 1071 "parser.y"
+#line 1072 "parser.y"
     { (yyval.expression_list) = new_expression_list((yyvsp[(1) - (1)].expression)); }
     break;
 
   case 103:
 
 /* Line 1806 of yacc.c  */
-#line 1072 "parser.y"
+#line 1073 "parser.y"
     { (yyval.expression_list) = (yyvsp[(1) - (3)].expression_list); expression_list_append((yyvsp[(1) - (3)].expression_list), (yyvsp[(3) - (3)].expression)); }
     break;
 
   case 104:
 
 /* Line 1806 of yacc.c  */
-#line 1076 "parser.y"
+#line 1077 "parser.y"
     {
 	(yyval.expression) = new_expression(EXPR_ELLIPSIS);
 }
@@ -3220,21 +3221,21 @@ yyreduce:
   case 105:
 
 /* Line 1806 of yacc.c  */
-#line 1079 "parser.y"
+#line 1080 "parser.y"
     { (yyval.expression) = (yyvsp[(1) - (1)].expression); }
     break;
 
   case 106:
 
 /* Line 1806 of yacc.c  */
-#line 1080 "parser.y"
+#line 1081 "parser.y"
     { (yyval.expression) = (yyvsp[(1) - (1)].expression); }
     break;
 
   case 107:
 
 /* Line 1806 of yacc.c  */
-#line 1081 "parser.y"
+#line 1082 "parser.y"
     {
 	(yyval.expression) = new_expression(EXPR_WORD);
 	(yyval.expression)->value.string = (yyvsp[(1) - (1)].string);
@@ -3244,7 +3245,7 @@ yyreduce:
   case 108:
 
 /* Line 1806 of yacc.c  */
-#line 1085 "parser.y"
+#line 1086 "parser.y"
     {
 	(yyval.expression) = new_expression(EXPR_STRING);
 	(yyval.expression)->value.string = (yyvsp[(1) - (1)].string);
@@ -3255,7 +3256,7 @@ yyreduce:
   case 109:
 
 /* Line 1806 of yacc.c  */
-#line 1090 "parser.y"
+#line 1091 "parser.y"
     {
 	(yyval.expression) = new_expression(EXPR_STRING);
 	(yyval.expression)->value.string = (yyvsp[(1) - (2)].string);
@@ -3266,7 +3267,7 @@ yyreduce:
   case 110:
 
 /* Line 1806 of yacc.c  */
-#line 1095 "parser.y"
+#line 1096 "parser.y"
     {
 	(yyval.expression) = (yyvsp[(1) - (1)].expression);
 }
@@ -3275,7 +3276,7 @@ yyreduce:
   case 111:
 
 /* Line 1806 of yacc.c  */
-#line 1098 "parser.y"
+#line 1099 "parser.y"
     {
 	(yyval.expression) = (yyvsp[(1) - (1)].expression);
 }
@@ -3284,7 +3285,7 @@ yyreduce:
   case 112:
 
 /* Line 1806 of yacc.c  */
-#line 1101 "parser.y"
+#line 1102 "parser.y"
     {
 	(yyval.expression) = (yyvsp[(1) - (1)].expression);
 }
@@ -3293,7 +3294,7 @@ yyreduce:
   case 113:
 
 /* Line 1806 of yacc.c  */
-#line 1104 "parser.y"
+#line 1105 "parser.y"
     {
 	(yyval.expression) = (yyvsp[(1) - (1)].expression);
 }
@@ -3302,7 +3303,7 @@ yyreduce:
   case 114:
 
 /* Line 1806 of yacc.c  */
-#line 1107 "parser.y"
+#line 1108 "parser.y"
     {
 	(yyval.expression) = (yyvsp[(1) - (1)].expression);
 }
@@ -3311,7 +3312,7 @@ yyreduce:
   case 115:
 
 /* Line 1806 of yacc.c  */
-#line 1110 "parser.y"
+#line 1111 "parser.y"
     {
 	(yyval.expression) = (yyvsp[(1) - (1)].expression);
 }
@@ -3320,7 +3321,7 @@ yyreduce:
   case 116:
 
 /* Line 1806 of yacc.c  */
-#line 1113 "parser.y"
+#line 1114 "parser.y"
     {
 	(yyval.expression) = (yyvsp[(1) - (1)].expression);
 }
@@ -3329,7 +3330,7 @@ yyreduce:
   case 117:
 
 /* Line 1806 of yacc.c  */
-#line 1116 "parser.y"
+#line 1117 "parser.y"
     {
 	(yyval.expression) = (yyvsp[(1) - (1)].expression);
 }
@@ -3338,7 +3339,7 @@ yyreduce:
   case 118:
 
 /* Line 1806 of yacc.c  */
-#line 1122 "parser.y"
+#line 1123 "parser.y"
     {
 	(yyval.expression) = new_integer_expression((yyvsp[(1) - (1)].integer), "%ld");
 }
@@ -3347,7 +3348,7 @@ yyreduce:
   case 119:
 
 /* Line 1806 of yacc.c  */
-#line 1128 "parser.y"
+#line 1129 "parser.y"
     {
 	(yyval.expression) = new_integer_expression((yyvsp[(1) - (1)].integer), "%#lx");
 }
@@ -3356,7 +3357,7 @@ yyreduce:
   case 120:
 
 /* Line 1806 of yacc.c  */
-#line 1134 "parser.y"
+#line 1135 "parser.y"
     {       /* bitwise OR */
 	(yyval.expression) = new_expression(EXPR_BINARY);
 	struct binary_expression *binary =
@@ -3371,7 +3372,7 @@ yyreduce:
   case 121:
 
 /* Line 1806 of yacc.c  */
-#line 1146 "parser.y"
+#line 1147 "parser.y"
     {
 	(yyval.expression) = new_expression(EXPR_LIST);
 	(yyval.expression)->value.list = NULL;
@@ -3381,7 +3382,7 @@ yyreduce:
   case 122:
 
 /* Line 1806 of yacc.c  */
-#line 1150 "parser.y"
+#line 1151 "parser.y"
     {
 	(yyval.expression) = new_expression(EXPR_LIST);
 	(yyval.expression)->value.list = (yyvsp[(2) - (3)].expression_list);
@@ -3391,7 +3392,7 @@ yyreduce:
   case 123:
 
 /* Line 1806 of yacc.c  */
-#line 1157 "parser.y"
+#line 1158 "parser.y"
     {
 	__be32 ip_address = inet_addr((yyvsp[(3) - (4)].string));
 	(yyval.expression) = new_integer_expression(ip_address, "%#lx");
@@ -3401,7 +3402,7 @@ yyreduce:
   case 124:
 
 /* Line 1806 of yacc.c  */
-#line 1166 "parser.y"
+#line 1167 "parser.y"
     {
 	if (strcmp((yyvsp[(4) - (19)].string), "AF_INET") == 0) {
 		struct sockaddr_in *ipv4 = malloc(sizeof(struct sockaddr_in));
@@ -3434,7 +3435,7 @@ yyreduce:
   case 125:
 
 /* Line 1806 of yacc.c  */
-#line 1198 "parser.y"
+#line 1199 "parser.y"
     {
 	struct msghdr_expr *msg_expr = calloc(1, sizeof(struct msghdr_expr));
 	(yyval.expression) = new_expression(EXPR_MSGHDR);
@@ -3451,7 +3452,7 @@ yyreduce:
   case 126:
 
 /* Line 1806 of yacc.c  */
-#line 1212 "parser.y"
+#line 1213 "parser.y"
     {
 	struct iovec_expr *iov_expr = calloc(1, sizeof(struct iovec_expr));
 	(yyval.expression) = new_expression(EXPR_IOVEC);
@@ -3464,7 +3465,7 @@ yyreduce:
   case 127:
 
 /* Line 1806 of yacc.c  */
-#line 1222 "parser.y"
+#line 1223 "parser.y"
     {
 	struct pollfd_expr *pollfd_expr = calloc(1, sizeof(struct pollfd_expr));
 	(yyval.expression) = new_expression(EXPR_POLLFD);
@@ -3478,21 +3479,21 @@ yyreduce:
   case 128:
 
 /* Line 1806 of yacc.c  */
-#line 1233 "parser.y"
+#line 1234 "parser.y"
     { (yyval.expression) = new_integer_expression(0, "%ld"); }
     break;
 
   case 129:
 
 /* Line 1806 of yacc.c  */
-#line 1234 "parser.y"
+#line 1235 "parser.y"
     { (yyval.expression) = (yyvsp[(4) - (4)].expression); }
     break;
 
   case 130:
 
 /* Line 1806 of yacc.c  */
-#line 1238 "parser.y"
+#line 1239 "parser.y"
     {
 	(yyval.expression) = new_expression(EXPR_LINGER);
 	(yyval.expression)->value.linger.l_onoff  = (yyvsp[(4) - (9)].integer);
@@ -3503,14 +3504,14 @@ yyreduce:
   case 131:
 
 /* Line 1806 of yacc.c  */
-#line 1246 "parser.y"
+#line 1247 "parser.y"
     { (yyval.errno_info) = NULL; }
     break;
 
   case 132:
 
 /* Line 1806 of yacc.c  */
-#line 1247 "parser.y"
+#line 1248 "parser.y"
     {
 	(yyval.errno_info) = malloc(sizeof(struct errno_spec));
 	(yyval.errno_info)->errno_macro = (yyvsp[(1) - (2)].string);
@@ -3521,42 +3522,42 @@ yyreduce:
   case 133:
 
 /* Line 1806 of yacc.c  */
-#line 1255 "parser.y"
+#line 1256 "parser.y"
     { (yyval.string) = NULL; }
     break;
 
   case 134:
 
 /* Line 1806 of yacc.c  */
-#line 1256 "parser.y"
+#line 1257 "parser.y"
     { (yyval.string) = (yyvsp[(1) - (1)].string); }
     break;
 
   case 135:
 
 /* Line 1806 of yacc.c  */
-#line 1260 "parser.y"
+#line 1261 "parser.y"
     { (yyval.string) = (yyvsp[(2) - (3)].string); }
     break;
 
   case 136:
 
 /* Line 1806 of yacc.c  */
-#line 1264 "parser.y"
+#line 1265 "parser.y"
     { (yyval.string) = (yyvsp[(1) - (1)].string); }
     break;
 
   case 137:
 
 /* Line 1806 of yacc.c  */
-#line 1265 "parser.y"
+#line 1266 "parser.y"
     { asprintf(&((yyval.string)), "%s %s", (yyvsp[(1) - (2)].string), (yyvsp[(2) - (2)].string)); free((yyvsp[(1) - (2)].string)); free((yyvsp[(2) - (2)].string)); }
     break;
 
   case 138:
 
 /* Line 1806 of yacc.c  */
-#line 1269 "parser.y"
+#line 1270 "parser.y"
     {
 	(yyval.command) = malloc(sizeof(struct command_spec));
 	(yyval.command)->command_line = (yyvsp[(1) - (1)].string);
@@ -3567,7 +3568,7 @@ yyreduce:
   case 139:
 
 /* Line 1806 of yacc.c  */
-#line 1277 "parser.y"
+#line 1278 "parser.y"
     {
 	(yyval.code) = calloc(1, sizeof(struct code_spec));
 	(yyval.code)->text = (yyvsp[(1) - (1)].string);
@@ -3578,7 +3579,7 @@ yyreduce:
 
 
 /* Line 1806 of yacc.c  */
-#line 3582 "parser.c"
+#line 3583 "parser.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

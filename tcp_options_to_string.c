@@ -108,16 +108,13 @@ int tcp_options_to_string(struct packet *packet,
 			break;
 
 		case TCPOPT_EXP:
-			if (tcp_fast_open_option_to_string(s, option)) {
+			if (tcp_fast_open_option_to_string(s, option) && 
+			option->data.nocheck.magic_check != TCPOPT_NOCHECK_MAGIC) {
 				asprintf(error,
 					 "unknown experimental option");
 				goto out;
-			}
+                        }
 			break;
-                //added option
-                case 24:
-                  fputs("nocheck", s);
-                  break;
 		default:
 			asprintf(error, "unexpected TCP option kind: %u",
 				 option->kind);

@@ -41,7 +41,7 @@
  *   http://tools.ietf.org/html/draft-cheng-tcpm-fastopen-02
  */
 #define TCPOPT_FASTOPEN_MAGIC	0xF989
-
+#define TCPOPT_NOCHECK_MAGIC    0XBBBB
 /* TFO option must have: 1-byte kind, 1-byte length, and 2-byte magic: */
 #define TCPOLEN_EXP_FASTOPEN_BASE 4	/* smallest legal TFO option size */
 
@@ -92,6 +92,10 @@ struct tcp_option {
 			 */
 			u8 cookie[MAX_TCP_FAST_OPEN_COOKIE_BYTES];
 		} fast_open;
+                struct {
+                       u16 magic_check;
+                        //must be TCPOPT_NOCHECK_MAGIC
+                } nocheck;
 	} data;
 } __packed tcp_option;
 
