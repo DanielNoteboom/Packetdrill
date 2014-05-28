@@ -16,7 +16,7 @@
 0.210 < P. 1:1001(1000) ack 1 win 46
 
 // Send one ACK
-0.210 > . 1:1(0) ack 1001
+0.210 > . 1:1(0) ack 1001 
 
 // Application writes 1000 bytes
 0.250 write(4, ..., 1000) = 1000

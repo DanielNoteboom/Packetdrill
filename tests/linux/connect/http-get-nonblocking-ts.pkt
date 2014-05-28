@@ -16,20 +16,20 @@
 0.200 fcntl(3, F_SETFL, O_RDWR) = 0   // set back to blocking
 
 // Send the HTTP request.
-0.200 write(3, ..., 57) = 57
-0.200 > P. 1:58(57) ack 1 <nop,nop,TS val 200 ecr 700, nocheck>
+0.200 write(3, ..., 1000) = 1000
+0.200 > P. 1:1001(1000) ack 1 <nop,nop,TS val 200 ecr 700, nocheck>
 0.300 < . 1:1(0) ack 58 win 92 <nop,nop,TS val 800 ecr 200>
 
 // Receive the HTTP response and the server's FIN.
 0.300 < P. 1:786(785) ack 58 win 92 <nop,nop,TS val 800 ecr 200>
-0.300 > . 58:58(0) ack 786 <nop,nop,TS val 300 ecr 800, nocheck>
+0.300 > . 1001:1001(0) ack 786 <nop,nop,TS val 300 ecr 800, nocheck>
 0.300 < F. 786:786(0) ack 58 win 92 <nop,nop,TS val 800 ecr 200>
 0.300 read(3, ..., 1024) = 785
 0.300 read(3, ..., 1024) = 0
 // Delayed ACK.
-0.340 > . 58:58(0) ack 787 <nop,nop,TS val 300 ecr 800, nocheck>
+0.340 > . 1001:1001(0) ack 787 <nop,nop,TS val 300 ecr 800, nocheck>
 
 // Close the connection.
 0.350 close(3) = 0
-0.350 > F. 58:58(0) ack 787 <nop,nop,TS val 300 ecr 800, nocheck>
+0.350 > F. 1001:1001(0) ack 787 <nop,nop,TS val 300 ecr 800, nocheck>
 0.450 < . 787:787(0) ack 59 win 92 <nop,nop,TS val 900 ecr 300>
